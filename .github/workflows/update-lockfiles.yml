@@ -1,0 +1,28 @@
+name: Update Lockfiles
+
+on: pull_request
+
+jobs:
+  update-lockfiles:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Bazel
+      uses: bazelbuild/setup-bazelisk@v1
+
+    - name: Update Default Lock File
+      run: bazel run //src/test/tools/bzlmod:update_default_lock_file
+
+    - name: Update Dependencies Lockfile
+      run: bazel mod deps --lockfile_mode=update
+
+    - name: Commit and Push Changes
+      run: |
+        git config --global user.name 'SunilGowroji'
+        git config --global user.email 'sgowroji@google.com'
+        git add -A
+        git commit -m "Update lockfiles" || echo "No changes to commit"
+        git push
