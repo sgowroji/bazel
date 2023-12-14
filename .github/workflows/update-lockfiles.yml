@@ -1,28 +1,26 @@
-name: Update Lockfiles
+name: Update Lockfile
 
-on: pull_request
+on:
+  pull_request:
+    types:
+      - labeled
 
 jobs:
-  update-lockfiles:
+  update-lockfile:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v2
 
-    - name: Set up Bazel
-      uses: bazelbuild/setup-bazelisk@v1
+      - name: Set up Bazel
+        uses: bazelbuild/bazel@7.0.0
+        with:
+          bazel-version: '7.0.0'
 
-    - name: Update Default Lock File
-      run: bazel run //src/test/tools/bzlmod:update_default_lock_file
+      - name: Update Lockfile
+        if: "contains(github.event.label.name, 'updatelock')"
+        run: |
+          bazel run //src/test/tools/bzlmod:update_default_lock_file
+          bazel mod deps --lockfile_mode=update
 
-    - name: Update Dependencies Lockfile
-      run: bazel mod deps --lockfile_mode=update
-
-    - name: Commit and Push Changes
-      run: |
-        git config --global user.name 'SunilGowroji'
-        git config --global user.email 'sgowroji@google.com'
-        git add -A
-        git commit -m "Update lockfiles" || echo "No changes to commit"
-        git push
