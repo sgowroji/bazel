@@ -32,7 +32,7 @@ The example `android_binary` depends on
 install the Google Support Libraries version 25.0.0 from the Android SDK
 Manager.
 
-The following command can be used to build the example app:
+The following command is used to build the example app:
 
 ```
 bazel build //examples/android/java/bazel:hello_world --java_language_version=8
