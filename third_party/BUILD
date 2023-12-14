@@ -4,6 +4,7 @@ load("//tools/distributions:distribution_rules.bzl", "distrib_jar_filegroup", "d
 load(":compiler_config_setting.bzl", "create_compiler_config_setting")
 
 package(default_visibility = ["//visibility:public"])
+package(default_visibility = ["//visibility:public"])
 
 filegroup(
     name = "srcs",
