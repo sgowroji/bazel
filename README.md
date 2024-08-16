@@ -21,7 +21,7 @@ Build and test software of any size, quickly and reliably.
   platforms with Bazel's familiar extension language. Share and re-use language
   rules written by the growing Bazel community.
 
-## Getting Started
+## Getting Started.
 
   * [Install Bazel](https://bazel.build/install)
   * [Get started with Bazel](https://bazel.build/start)
