@@ -23,11 +23,17 @@ jobs:
               const prNumber = pr.number;
               console.log(`PR number: ${prNumber}`);
               console.log("PR details: ", pr);
-               const reviews = await github.rest.pulls.reviews({
-                 owner,
-                 repo,
-                 pull_number: pr.number
-               });
+                const response = await github.rest.pulls.listReviews({
+                  owner,
+                  repo,
+                  pull_number = pr.number,
+                });
+                console.log('Reviews:', response.data);
+              #   const reviews = await github.rest.pulls.reviews({
+              #    owner,
+              #    repo,
+              #    pull_number: pr.number
+              #  });
               const approvedReview = reviews.data.find(review => review.state === "APPROVED");
               if (approvedReview) {
                 const fiveDaysAgo = new Date();
