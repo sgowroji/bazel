@@ -1,0 +1,52 @@
+name: Comment on Stale Approved PRs
+
+on:
+ workflow_dispatch:
+   
+jobs:
+  comment-on-stale-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const awaitingReviewLabel = "awaiting-review";
+            const prs = await github.rest.pulls.list({
+              owner,
+              repo,
+            });
+            for (const pr of prs.data) {
+              const prNumber = pr.number;
+              const reviews = (
+                await github.rest.pulls.listReviews({
+                owner,
+                repo,
+                pull_number: pr.number,
+               })
+               ).data;
+              let approvedReview;
+              if (reviews) {
+                   approvedReview = reviews.find(review => review.state === "APPROVED");
+               } else {
+                   console.error("reviews is undefined");
+               }
+              if (approvedReview && pr.labels.some(label => label.name === awaitingReviewLabel)) {
+                const fiveDaysAgo = new Date();
+                fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+
+                if (new Date(approvedReview.submitted_at) < fiveDaysAgo) {
+                  console.log('approved pr with awaiting label: ',pr.number)
+                  const commentBody = "This PR has been approved for more than 5 days but still has the 'awaiting-review' label. Please review and merge or close the PR.";
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: pr.number,
+                    body: commentBody
+                  });
+                }
+              }
+            }
