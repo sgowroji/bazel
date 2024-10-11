@@ -49,6 +49,7 @@ jobs:
                    .catch(function (err) {
                      console.log('err', err);
                    });
+                 }
               let approvedReview;
               if (reviews) {
                    approvedReview = reviews.find(review => review.state === "APPROVED");
