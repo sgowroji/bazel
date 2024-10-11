@@ -28,9 +28,9 @@ jobs:
                 pull_number: pr.number,
                })
                ).data;
-              # console.log(" Each PR id  is in prs :",prNumber)
-              # console.log("reviews of prNumber :",prNumber, reviews)
-              console.log("Reviewer : ",reviews.user.login)
+               for (const review of reviews) {
+                console.log("Reviewer : ",review.user.login)
+                }
               let approvedReview;
               if (reviews) {
                    approvedReview = reviews.find(review => review.state === "APPROVED");
