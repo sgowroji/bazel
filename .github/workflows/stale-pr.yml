@@ -31,24 +31,23 @@ jobs:
                ).data;
                for (const review of reviews) {
                 console.log("Reviewer : ",review.user.login)
-               var options = {
-                   uri: 'https://opensource.corp.google.com/github/search.json?q=',
-                   qs: {
-                       access_token: review.user.login // -> uri + '?access_token=xxxxx%20xxxxx'
-                   },
-                   headers: {
-                       'User-Agent': 'Request-Promise'
-                   },
-                   json: true // Automatically parses the JSON string in the response
-               };
-               
+                var options = {
+                    uri: 'https://opensource.corp.google.com/github/search.json?q=',
+                    qs: {
+                        access_token: review.user.login
+                    },
+                    headers: {
+                        'User-Agent': 'Request-Promise'
+                    },
+                    json: true
+                };
                rp(options)
                    .then(function (response) {
                        console.log('response', response.statusCode);
                        console.log('body', response.body);
                    })
                    .catch(function (err) {
-                       // API call failed...
+                     console.log('err', err);
                    });
               let approvedReview;
               if (reviews) {
