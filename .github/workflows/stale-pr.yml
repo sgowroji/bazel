@@ -19,7 +19,6 @@ jobs:
               owner,
               repo,
             });
-            console.log("prs :",prs)
             for (const pr of prs.data) {
               const prNumber = pr.number;
               const reviews = (
@@ -29,7 +28,8 @@ jobs:
                 pull_number: pr.number,
                })
                ).data;
-              console.log("reviews :",reviews)
+              console.log(" Each PR id  is in prs :",prNumber)
+              console.log("reviews of prNumber :",prNumber, reviews)
               let approvedReview;
               if (reviews) {
                    approvedReview = reviews.find(review => review.state === "APPROVED");
