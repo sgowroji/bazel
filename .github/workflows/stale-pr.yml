@@ -31,7 +31,7 @@ jobs:
                ).data;
                for (const review of reviews) {
                 console.log("Reviewer : ",review.user.login)
-               rp({ uri: 'https://opensource.corp.google.com/github/search.json?q='${review.user.login}, resolveWithFullResponse: true })
+               rp({ uri: 'https://opensource.corp.google.com/github/search.json?q='${review.user.login}', resolveWithFullResponse: true })
                    .then(function (response) {
                    console.log("response.statusCode : ",response.statusCode)
                    console.log("response.body : ",response.body)
