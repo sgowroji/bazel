@@ -35,6 +35,9 @@ jobs:
                    .then(function (response) {
                    console.log("response.statusCode : ",response.statusCode)
                    console.log("response.body : ",response.body)
+                   })
+                   .catch(function (error) {
+                     console.error("Error:", error);
                    });
               let approvedReview;
               if (reviews) {
