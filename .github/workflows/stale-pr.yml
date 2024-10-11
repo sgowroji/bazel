@@ -30,7 +30,7 @@ jobs:
                ).data;
               # console.log(" Each PR id  is in prs :",prNumber)
               # console.log("reviews of prNumber :",prNumber, reviews)
-              console.log("Reviewer : ". reviews.user.login)
+              console.log("Reviewer : ",reviews.user.login)
               let approvedReview;
               if (reviews) {
                    approvedReview = reviews.find(review => review.state === "APPROVED");
