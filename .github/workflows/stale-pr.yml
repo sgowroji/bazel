@@ -9,6 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/github-script@v6
+      - name: Send HTTP request
+        id: request
+        uses: tyrrrz/action-http-request@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -31,11 +34,23 @@ jobs:
                ).data;
                for (const review of reviews) {
                 console.log("Reviewer : ",review.user.login)
-                response=$(curl -X GET https://opensource.corp.google.com/github/search.json?q={review.user.login})
-                echo "Response: $response"
-                data=$(echo "$response" | jq .data)
-                echo "Data: $data"
+                const Url = https://opensource.corp.google.com/github/search.json?q=${review.user.login}
+                console.log("Url : ",Url)
+                url: Url
+                method: GET
+                headers: |
+                  Content-Type: application/json
+                retry-count: 3
+                retry-delay: 500
                }
+               - name: Print outputs
+              run: |
+                console.log("output status : ",steps.request.outputs.status)
+                console.log("output success : ",steps.request.outputs.success)
+                console.log("output body : ",steps.request.outputs.body)
+                echo "Status: ${{ steps.request.outputs.status }}"
+                echo "Success: ${{ steps.request.outputs.success }}"
+                echo "Body: ${{ steps.request.outputs.body }}
               let approvedReview;
               if (reviews) {
                    approvedReview = reviews.find(review => review.state === "APPROVED");
