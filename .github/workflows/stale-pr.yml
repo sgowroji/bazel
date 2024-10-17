@@ -44,11 +44,12 @@ jobs:
                   let data = '';
                   res.on('data', (chunk) => {
                     data += chunk;
+                     console.log("data : ", data);
                   });
                   res.on('end', () => {
                     try {
                        const jsonData = JSON.parse(data);
-                       console.log("jsonData : ${jsonData}");
+                       console.log("jsonData ", jsonData);
                        // Loop through Users array and check emails
                        jsonData.Users.forEach(user => {
                          const email = user.email;
