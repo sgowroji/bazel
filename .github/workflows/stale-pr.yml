@@ -14,7 +14,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const https = require('https');
-            const myFetch = https.request;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const awaitingReviewLabel = "awaiting-review";
@@ -36,33 +35,29 @@ jobs:
 
                
                for (const review of reviews) {
-                console.log("Reviewer : ",review.user.login)
-                const Url = https://opensource.corp.google.com/github/search.json?q=${review.user.login}
-                console.log("Url : ",Url)
-                   // Call API request and print the response in console
-                  const reviewer = review.user.login; // Example to get reviewer username
-                  const apiUrl = `https://opensource.corp.google.com/github/search.json?q=${reviewer}`;
-                  console.log("apiUrl : ", apiUrl)
 
-                 https.get(apiUrl, (res) => {
-                   let data = '';
-                 
-                   res.on('data', (chunk) => {
-                     data += chunk;
-                   });
-                 
-                   res.on('end', () => {
-                     try {
-                       const jsonData = JSON.parse(data);
-                       console.log(jsonData); // This will contain the response data
-                     } catch (error) {
-                       console.error("Error parsing JSON:", error);
-                     }
-                   });
-                 }).on('error', (error) => {
-                   console.error("Error:", error);
-                 });
-               }
+                const reviewer = review.user.login;
+                const apiUrl = `https://opensource.corp.google.com/github/search.json?q=${reviewer}`;
+                
+                https.get(apiUrl, (res) => {
+                  let data = '';
+                  
+                  res.on('data', (chunk) => {
+                    data += chunk;
+                  });
+                  
+                  res.on('end', () => {
+                    try {
+                      const jsonData = JSON.parse(data);
+                      console.log(`Data for reviewer ${reviewer}:`, jsonData); // Log the response data
+                    } catch (error) {
+                      console.error("Error parsing JSON:", error);
+                    }
+                  });
+                }).on('error', (error) => {
+                  console.error("Error with API request:", error);
+                });
+              }
 
                
               let approvedReview;
