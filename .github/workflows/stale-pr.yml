@@ -13,7 +13,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fetch = require('node-fetch');
+            const https = require('https');
+            const myFetch = https.request;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const awaitingReviewLabel = "awaiting-review";
@@ -42,13 +43,25 @@ jobs:
                   const reviewer = review.user.login; // Example to get reviewer username
                   const apiUrl = `https://opensource.corp.google.com/github/search.json?q=${reviewer}`;
                   console.log("apiUrl : ",apiUrl)
-                  try {
-                    const response = await fetch(apiUrl);
-                    const data = await response.json();
-                    console.log('API Response for reviewer:', reviewer, data);
-                  } catch (error) {
-                    console.error('Error calling API:', error);
-                  }
+
+                 https.get(apiUrl, (res) => {
+                   let data = '';
+                 
+                   res.on('data', (chunk) => {
+                     data += chunk;
+                   });
+                 
+                   res.on('end', () => {
+                     try {
+                       const jsonData = JSON.parse(data);
+                       console.log(jsonData); // This will contain the response data
+                     } catch (error) {
+                       console.error('Error parsing JSON:', error);
+                     }
+                   });
+                 }).on('error', (error) => {
+                   console.error('Error:', error);
+                 });
                }
 
                
