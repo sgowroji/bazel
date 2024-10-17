@@ -37,15 +37,14 @@ jobs:
                for (const review of reviews) {
 
                 const reviewer = review.user.login;
+                console.log("reviewer",reviewer)
                 const apiUrl = `https://opensource.corp.google.com/github/search.json?q=${reviewer}`;
-                
+                console.log("apiUrl",apiUrl)
                 https.get(apiUrl, (res) => {
                   let data = '';
-                  
                   res.on('data', (chunk) => {
                     data += chunk;
                   });
-                  
                   res.on('end', () => {
                     try {
                       const jsonData = JSON.parse(data);
@@ -58,8 +57,6 @@ jobs:
                   console.error("Error with API request:", error);
                 });
               }
-
-               
               let approvedReview;
               if (reviews) {
                    approvedReview = reviews.find(review => review.state === "APPROVED");
