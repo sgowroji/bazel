@@ -9,13 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/github-script@v6
-      - name: Send HTTP request
-        id: request
-        uses: tyrrrz/action-http-request@master
+
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            var rp = require('request-promise');
+            const fetch = require('node-fetch');
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const awaitingReviewLabel = "awaiting-review";
@@ -23,6 +21,8 @@ jobs:
               owner,
               repo,
             });
+
+            
             for (const pr of prs.data) {
               const prNumber = pr.number;
               const reviews = (
@@ -32,25 +32,26 @@ jobs:
                 pull_number: pr.number,
                })
                ).data;
+
+               
                for (const review of reviews) {
                 console.log("Reviewer : ",review.user.login)
                 const Url = https://opensource.corp.google.com/github/search.json?q=${review.user.login}
                 console.log("Url : ",Url)
-                url: Url
-                method: GET
-                headers: |
-                  Content-Type: application/json
-                retry-count: 3
-                retry-delay: 500
+                   // Call API request and print the response in console
+                  const reviewer = review.user.login; // Example to get reviewer username
+                  const apiUrl = `https://opensource.corp.google.com/github/search.json?q=${reviewer}`;
+                  console.log("apiUrl : ",apiUrl)
+                  try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    console.log('API Response for reviewer:', reviewer, data);
+                  } catch (error) {
+                    console.error('Error calling API:', error);
+                  }
                }
-               - name: Print outputs
-              run: |
-                console.log("output status : ",steps.request.outputs.status)
-                console.log("output success : ",steps.request.outputs.success)
-                console.log("output body : ",steps.request.outputs.body)
-                echo "Status: ${{ steps.request.outputs.status }}"
-                echo "Success: ${{ steps.request.outputs.success }}"
-                echo "Body: ${{ steps.request.outputs.body }}
+
+               
               let approvedReview;
               if (reviews) {
                    approvedReview = reviews.find(review => review.state === "APPROVED");
