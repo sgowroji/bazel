@@ -42,7 +42,7 @@ jobs:
                    // Call API request and print the response in console
                   const reviewer = review.user.login; // Example to get reviewer username
                   const apiUrl = `https://opensource.corp.google.com/github/search.json?q=${reviewer}`;
-                  console.log("apiUrl : ",apiUrl)
+                  console.log("apiUrl : ", apiUrl)
 
                  https.get(apiUrl, (res) => {
                    let data = '';
@@ -56,11 +56,11 @@ jobs:
                        const jsonData = JSON.parse(data);
                        console.log(jsonData); // This will contain the response data
                      } catch (error) {
-                       console.error('Error parsing JSON:', error);
+                       console.error("Error parsing JSON:", error);
                      }
                    });
                  }).on('error', (error) => {
-                   console.error('Error:', error);
+                   console.error("Error:", error);
                  });
                }
 
