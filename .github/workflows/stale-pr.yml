@@ -24,6 +24,7 @@ jobs:
 
             
             for (const pr of prs.data) {
+              console.log("prs",pr)
               const prNumber = pr.number;
               const reviews = (
                 await github.rest.pulls.listReviews({
