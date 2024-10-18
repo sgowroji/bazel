@@ -42,7 +42,7 @@ jobs:
                 console.log("apiUrl",apiUrl)
                 const options = {
                   url: apiUrl,
-                    hostname: 'https://api.github.com',
+                    hostname: 'api.github.com',
                     path: '/orgs/bazelbuild/members/${reviewer}',
                     method: 'GET',
                     headers: {
