@@ -39,7 +39,7 @@ jobs:
 
                 const reviewer = review.user.login;
                 console.log("reviewer",reviewer)
-                const apiUrl = `https://opensource.corp.google.com/github/search.json?q=${reviewer}`;
+                const apiUrl = `https://api.github.com/orgs/bazelbuild/members/${reviewer}`;
                 console.log("apiUrl",apiUrl)
                 https.get(apiUrl, (res) => {
                   let data = '';
