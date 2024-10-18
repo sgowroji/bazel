@@ -57,24 +57,7 @@ jobs:
                      console.log("data : ", data);
                   });
                   res.on('end', () => {
-                    try {
-                       const jsonData = JSON.parse(data);
-                       console.log("jsonData ", jsonData);
-                       // Loop through Users array and check emails
-                       jsonData.Users.forEach(user => {
-                         const email = user.email;
-                         
-                         if (email.endsWith('@google.com')) {
-                           console.log("User with google.com email: ${email}");
-                         } else  {
-                           console.log("else : ${email}");
-                         }
-                         
-                       });
-                   
-                     } catch (error) {
-                       console.error("Error parsing JSON:", error);
-                     }
+                 
                   });
                 }).on('error', (error) => {
                   console.error("Error with API request:", error);
