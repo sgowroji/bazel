@@ -41,7 +41,6 @@ jobs:
                 const apiUrl = `https://api.github.com/orgs/bazelbuild/members/${reviewer}`;
                 console.log("apiUrl",apiUrl)
                 const options = {
-                  url: apiUrl,
                     hostname: 'api.github.com',
                     path: '/orgs/bazelbuild/members/${reviewer}',
                     method: 'GET',
