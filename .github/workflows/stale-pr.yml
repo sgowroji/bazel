@@ -42,10 +42,13 @@ jobs:
                 console.log("apiUrl",apiUrl)
                 const options = {
                   url: apiUrl,
-                  method: 'GET',
-                  headers: {
-                    'X-GitHub-Api-Version': '2022-11-28'
-                  }
+                    hostname: 'https://api.github.com',
+                    path: '/orgs/bazelbuild/members/${reviewer}',
+                    method: 'GET',
+                    headers: {
+                      'user-agent': 'node.js',
+                      'X-GitHub-Api-Version': '2022-11-28'
+                    }
                 };
 
                 https.get(options, (res) => {
