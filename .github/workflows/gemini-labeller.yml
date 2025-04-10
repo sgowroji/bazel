@@ -94,10 +94,9 @@ jobs:
               `;
             const result = await model.generateContent(prompt);
             const labels = /LABELS\: (.+)/g.exec(result.response.text());
-            console.log('output>>>>',labels);
             const label = labels[1].trim().split(/,\s*/);
             console.log('output>>>>',label);
-            const finallabel = label.trim()
+            const finallabel = label.replaceAll('"', '').replaceAll("'", '');
             console.log('output>>>>',finallabel);
             return finallabel
       - name: Add Labels
