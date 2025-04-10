@@ -84,9 +84,7 @@ jobs:
                 Use the following format:
                 LABELS: "the name of the chosen label, should start with team- and dont add multiple labels"
                 Only use one from the following label:
-                \`\`\`
                 ${teamLabels}
-                \`\`\`
             
                 ## ISSUE ##
                 SUBJECT: ${context.payload.issue.title}
@@ -95,10 +93,7 @@ jobs:
             const result = await model.generateContent(prompt);
             const labels = /LABELS\: (.+)/g.exec(result.response.text());
             const label = labels[1].trim().split(/,\s*/);
-            console.log('output>>>>',label);
-            let finallabel = label.replaceAll('"', '').replaceAll("'", '');
-            console.log('output>>>>',finallabel);
-            return finallabel
+            return label
       - name: Add Labels
         uses: actions/github-script@v7
         env:
