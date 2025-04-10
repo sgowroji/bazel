@@ -96,7 +96,7 @@ jobs:
             const labels = /LABELS\: (.+)/g.exec(result.response.text());
             const label = labels[1].trim().split(/,\s*/);
             console.log('output>>>>',label);
-            const finallabel = label.replaceAll('"', '').replaceAll("'", '');
+            let finallabel = label.replaceAll('"', '').replaceAll("'", '');
             console.log('output>>>>',finallabel);
             return finallabel
       - name: Add Labels
