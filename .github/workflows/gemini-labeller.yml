@@ -52,26 +52,26 @@ jobs:
             const { GenerativeModel } = require("@google/generative-ai");
             const model = new GenerativeModel(process.env.APIKEY, modelName);
             const teamLabels = [
-              "team-Android",
-              "team-Bazel",
-              "team-Configurability",
-              "team-Core",
-              "team-Performance",
-              "team-Local-Exec",
-              "team-Remote-Exec",
-              "team-ExternalDeps",
-              "team-Rules-Java",
-              "team-Rules-CPP",
-              "team-Rules-Server",
-              "team-Rules-Python",
-              "team-Starlark-Interpreter",
-              "team-Starlark-Integration",
-              "team-Rules-ObjC",
-              "team-CLI",
-              "team-Rules-API",
-              "team-Loading-API",
-              "team-OSS",
-              "team-Documentation"
+              team-Android,
+              team-Bazel,
+              team-Configurability,
+              team-Core,
+              team-Performance,
+              team-Local-Exec,
+              team-Remote-Exec,
+              team-ExternalDeps,
+              team-Rules-Java,
+              team-Rules-CPP,
+              team-Rules-Server,
+              team-Rules-Python,
+              team-Starlark-Interpreter,
+              team-Starlark-Integration,
+              team-Rules-ObjC,
+              team-CLI,
+              team-Rules-API,
+              team-Loading-API,
+              team-OSS,
+              team-Documentation
             ];
 
             const { data: availableLabels } = await github.rest.issues.listLabelsForRepo({
