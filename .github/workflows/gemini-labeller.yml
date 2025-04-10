@@ -95,8 +95,9 @@ jobs:
             const result = await model.generateContent(prompt);
             const labels = /LABELS\: (.+)/g.exec(result.response.text());
             const label = labels[1].trim().split(/,\s*/);
-            console.log('output>>>>',label);
-            return label
+            const finallabel = label.replace(/['"]+/g, '')
+            console.log('output>>>>',finallabel);
+            return finallabel
       - name: Add Labels
         uses: actions/github-script@v7
         env:
