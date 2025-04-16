@@ -1,0 +1,50 @@
+name: Label New Issue
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  label_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get Predicted Label
+        id: get_label
+        run: |
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ISSUE_BODY="${{ github.event.issue.body }}"
+          API_URL="https://bazel-triage-bot-dot-gtech-rmi-dev.uc.r.appspot.com/predict_label?title=$ISSUE_TITLE&description=$ISSUE_BODY"
+
+          echo "Calling API: $API_URL"
+          RESPONSE=$(curl -s "$API_URL")
+          echo "API Response: $RESPONSE"
+
+          # Extract the team_label from the JSON response
+          PREDICTED_LABEL=$(echo "$RESPONSE" | jq -r '.team_label')
+          echo "Predicted Label: $PREDICTED_LABEL"
+          echo "predicted_label=$PREDICTED_LABEL" >> "$GITHUB_OUTPUT"
+
+      - name: Add Label to Issue
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const predictedLabel = context.payload.jobs[0].steps.find(step => step.id === 'get_label').outputs.predicted_label;
+            if (predictedLabel) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.payload.issue.number,
+                  labels: [predictedLabel]
+                });
+                console.log(`Successfully added label "${predictedLabel}" to issue #${context.payload.issue.number}`);
+              } catch (error) {
+                console.error('Failed to add label:', error);
+              }
+            } else {
+              console.log('No label predicted by the API.');
+            }
