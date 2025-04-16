@@ -21,9 +21,11 @@ jobs:
           echo "Calling API: $API_URL"
           RESPONSE=$(curl -s "$API_URL")
           echo "API Response: $RESPONSE"
-
+          console.log($API_URL);
+          console.log($RESPONSE);
           # Extract the team_label from the JSON response
           PREDICTED_LABEL=$(echo "$RESPONSE" | jq -r '.team_label')
+          console.log($PREDICTED_LABEL);
           echo "Predicted Label: $PREDICTED_LABEL"
           echo "predicted_label=$PREDICTED_LABEL" >> "$GITHUB_OUTPUT"
 
