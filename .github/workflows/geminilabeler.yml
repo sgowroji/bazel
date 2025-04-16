@@ -2,7 +2,7 @@ name: Label New Issue
 
 on:
   issues:
-    types: [opened]
+    types: [opened,edited]
 
 jobs:
   label_issue:
