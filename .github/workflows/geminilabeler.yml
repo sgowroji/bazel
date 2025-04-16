@@ -27,6 +27,12 @@ jobs:
             const response = await fetch(apiUrl);
             if (!response.ok) {
               throw new Error(`API request failed: ${response.statusText}`);
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['team-OSS'],
+              });
             }
 
             const data = await response.json();
@@ -34,6 +40,13 @@ jobs:
 
             if (!label) {
               console.log("No label returned from API.");
+               // Add the label to the issue
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['team-OSS'],
+              });
               return;
             }
 
