@@ -19,8 +19,9 @@ jobs:
           script: |
             const title = context.payload.issue.title;
             const body = context.payload.issue.body || "";
+            const trimmedBody = body.length > 500 ? "" : body;
             const encodedTitle = encodeURIComponent(title);
-            const encodedBody = encodeURIComponent(body);
+            const encodedBody = encodeURIComponent(trimmedBody);
 
             const apiUrl = `https://bazel-triage-bot-dot-gtech-rmi-dev.uc.r.appspot.com/predict_label?title=${encodedTitle}&description=${encodedBody}`;
 
