@@ -19,7 +19,7 @@ jobs:
           script: |
             const title = context.payload.issue.title;
             const body = context.payload.issue.body || "";
-            const trimmedBody = body.length > 500 ? "" : body;
+            const trimmedBody = body.length > 3500 ? "" : body;
             const encodedTitle = encodeURIComponent(title);
             const encodedBody = encodeURIComponent(trimmedBody);
 
